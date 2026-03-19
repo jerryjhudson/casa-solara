@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casa Solara | Luxury Spanish Villa in Key West</title>
+	<!-- `sizes="any"` is to fix Chrome bug -->
+	<link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+	<link rel="shortcut icon" href="favicon/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-title" content="Casa Solara" />
+	<link rel="manifest" href="favicon/site.webmanifest" />
+	 <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+	
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ivory: '#F6F1E9',
+                        sand: '#E8DED1',
+                        terracotta: '#C86B4A',
+                        coral: '#D97C62',
+                        olive: '#3E4A3F',
+                        charcoal: '#2E2A27',
+                        border: '#E3D8CC',
+                    },
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'slow-zoom': 'slow-zoom 20s ease-in-out infinite alternate',
+                        'fade-up': 'fade-up 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        'slow-zoom': {
+                            '0%': { transform: 'scale(1)' },
+                            '100%': { transform: 'scale(1.1)' },
+                        },
+                        'fade-up': {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: currentColor;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .reveal {
+		  opacity: 0;
+		  transform: translateY(20px);
+		  transition: opacity 0.8s ease, transform 0.8s ease;
+		}
+		.reveal.active {
+		  opacity: 1;
+		  transform: translateY(0);
+		}
+		/* Gallery Modal */
+        #gallery-modal {
+            display: none;
+        }
+        #gallery-modal.active {
+            display: flex;
+        }
+    </style>
+</head>
+<body class="bg-ivory text-charcoal font-sans selection:bg-terracotta selection:text-white">
+
+    <!-- Sticky Nav Header -->
+    <nav id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-500 py-6 px-8 flex items-center justify-between">
+        <div class="text-2xl font-serif font-medium tracking-wider uppercase">
+            <a href="#" class="hover:opacity-80 transition-opacity">Casa Solara</a>
+        </div>
+        
+		<!-- Desktop Menu -->
+        <div class="hidden lg:flex items-center space-x-10 text-sm font-medium uppercase tracking-widest">
+            <a href="#villa" class="nav-link">The Villa</a>
+            <a href="#amenities" class="nav-link">Amenities</a>
+            <a href="#gallery" class="nav-link">Gallery</a>
+            <a href="#rates" class="nav-link">Rates</a>
+            <a href="#island-life" class="nav-link">Island Life</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </div>
+
+		<div class="flex items-center space-x-4">
+			<button onclick="openModal()" class="bg-terracotta text-white px-6 py-3 text-xs rounded-lg font-semibold uppercase tracking-widest hidden md:block lg:block xl:block hover:-translate-y-1 transition-transform duration-300 shadow-lg shadow-terracotta/20">
+				Check Availability
+			</button>
+			
+			<!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-toggle" class="lg:hidden text-white p-2 focus:outline-none" aria-label="Toggle Menu">
+                <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                <svg id="close-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+    </nav>
+
+	<!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-ivory translate-x-full transition-transform duration-500 lg:hidden flex flex-col items-center justify-center space-y-8">
+        <a href="#villa" class="mobile-nav-link text-2xl font-serif uppercase tracking-widest">The Villa</a>
+        <a href="#amenities" class="mobile-nav-link text-2xl font-serif uppercase tracking-widest">Amenities</a>
+        <a href="#gallery" class="mobile-nav-link text-2xl font-serif uppercase tracking-widest">Gallery</a>
+        <a href="#rates" class="mobile-nav-link text-2xl font-serif uppercase tracking-widest">Rates</a>
+        <a href="#island-life" class="mobile-nav-link text-2xl font-serif uppercase tracking-widest">Island Life</a>
+        <a href="#contact" class="mobile-nav-link text-2xl font-serif uppercase tracking-widest">Contact</a>
+        <button onclick="openModal(); toggleMobileMenu();" class="bg-terracotta rounded-lg text-white px-10 py-4 font-semibold uppercase tracking-widest text-sm shadow-xl">
+            Check Availability
+        </button>
+    </div>
+    <!-- Hero Section -->
+    <section class="relative h-screen w-full overflow-hidden flex items-center justify-center">
+        <div class="absolute inset-0 z-0">
+            <img src="https://jerryhudson.co/projects/casasolara/images/casa-solara-hero.webp" 
+                 alt="Luxury Villa Exterior" 
+                 class="w-full h-full object-cover"
+                 referrerpolicy="no-referrer">
+            <div class="absolute inset-0 bg-black/50"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl">
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif text-white leading-tight mb-6 reveal">
+                Where Spanish Elegance <br> Meets <span class="text-terracotta italic">Island Oasis</span>
+            </h1>
+            <p class="text-white/90 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto reveal" style="animation-delay: 0.2s;">
+                An exclusive sanctuary in the heart of Key West, blending Mediterranean soul with the effortless rhythm of the tropics.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 reveal" style="animation-delay: 0.4s;">
+                <a href="#villa" class="w-full sm:w-auto bg-terracotta rounded-lg text-white px-10 py-4 font-semibold uppercase tracking-widest hover:bg-terracotta/90 transition-colors">
+                    Explore the Villa
+                </a>
+                <a href="#rates" class="w-full sm:w-auto border border-white rounded-lg text-white px-10 py-4 font-semibold uppercase tracking-widest hover:bg-white hover:text-charcoal transition-all">
+                    View Rates
+                </a>
+            </div>
+        </div>
+
+        <!-- Booking Bar -->
+        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 w-full max-w-5xl px-4 hidden md:block" style="animation-delay: 0.6s;">
+		  <div class="reveal">
+			<div class="bg-white/95 backdrop-blur-sm p-4 flex items-center justify-between shadow-2xl border border-border rounded-lg">
+			  <div class="flex-1 px-4 border-r border-border">
+				<label class="block text-[10px] uppercase tracking-widest text-charcoal/60 font-bold mb-1">Arrival</label>
+				<input type="date" class="w-full bg-transparent outline-none text-sm font-medium">
+			  </div>
+			  <div class="flex-1 px-4 border-r border-border">
+				<label class="block text-[10px] uppercase tracking-widest text-charcoal/60 font-bold mb-1">Departure</label>
+				<input type="date" class="w-full bg-transparent outline-none text-sm font-medium">
+			  </div>
+			  <div class="flex-1 px-4 border-r border-border">
+				<label class="block text-[10px] uppercase tracking-widest text-charcoal/60 font-bold mb-1">Guests</label>
+				<select class="w-full bg-transparent outline-none text-sm font-medium cursor-pointer">
+				  <option>2 Guests</option>
+				  <option>4 Guests</option>
+				  <option>6 Guests</option>
+				  <option>8 Guests</option>
+				</select>
+			  </div>
+			  <div class="px-4">
+				<button class="bg-charcoal rounded-lg text-white px-8 py-3 text-xs font-semibold uppercase tracking-widest hover:bg-terracotta transition-colors">
+				  Search
+				</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+    </section>
+
+    <!-- Story Section -->
+    <section id="villa" class="py-24 md:py-32 px-8 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="reveal">
+                <span class="text-terracotta uppercase tracking-[0.3em] text-xs font-bold mb-4 block">Our Heritage</span>
+                <h2 class="text-4xl md:text-5xl font-serif mb-8 leading-tight">The Art of Coastal Living</h2>
+                <div class="space-y-6 text-charcoal/80 leading-relaxed text-lg font-light">
+                    <p>
+                        Casa Solara stands as a testament to the timeless allure of Spanish architecture, reimagined for the vibrant spirit of Key West. Every archway, hand-painted tile, and sun-drenched terrace has been curated to offer a sense of profound tranquility.
+                    </p>
+                    <p>
+                        Here, the boundary between indoors and out dissolves. Morning light filters through bougainvillea-draped balconies, while the scent of salt air mingles with the warmth of terracotta floors, creating an atmosphere that is both grand and intimately personal.
+                    </p>
+                </div>
+                <div class="mt-10">
+                    <a href="#" class="text-charcoal font-semibold uppercase tracking-widest text-sm border-b border-charcoal pb-1 hover:text-terracotta hover:border-terracotta transition-colors">Learn More</a>
+                </div>
+            </div>
+            <div class="relative h-[600px] reveal" style="animation-delay: 0.2s;">
+                <img src="https://jerryhudson.co/projects/casasolara/images/casa-solara-interior.webp" 
+                     alt="Villa Interior" 
+                     class="w-full h-full rounded-2xl object-cover shadow-2xl"
+                     referrerpolicy="no-referrer">
+                <div class="absolute -bottom-8 -left-8 w-48 h-48 border-8 border-sand hidden md:block"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Villa Features -->
+    <section id="amenities" class="bg-sand py-24 md:py-32 px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-20 reveal">
+                <h2 class="text-4xl md:text-5xl font-serif mb-4">Curated Amenities</h2>
+                <p class="text-charcoal/60 font-light max-w-xl mx-auto">Every detail designed to elevate your island experience to the extraordinary.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-ivory p-10 border border-border rounded-xl hover:border-terracotta hover:-translate-y-2 transition-all duration-500 reveal">
+                    <div class="text-terracotta mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sofa-icon lucide-sofa"><path d="M20 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3"/><path d="M2 16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v1.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5V11a2 2 0 0 0-4 0z"/><path d="M4 18v2"/><path d="M20 18v2"/><path d="M12 4v9"/></svg>
+                    </div>
+                    <h3 class="text-xl font-serif mb-3">Private Courtyard</h3>
+                    <p class="text-charcoal/70 font-light text-sm leading-relaxed">A secluded oasis featuring lush tropical gardens and hand-laid stone paths.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="bg-ivory p-10 border border-border rounded-xl hover:border-terracotta hover:-translate-y-2 transition-all duration-500 reveal" style="animation-delay: 0.1s;">
+                    <div class="text-terracotta mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-waves-icon lucide-waves"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>
+                    </div>
+                    <h3 class="text-xl font-serif mb-3">Saltwater Pool</h3>
+                    <p class="text-charcoal/70 font-light text-sm leading-relaxed">Heated infinity-edge pool with underwater lighting for midnight swims.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="bg-ivory p-10 border border-border rounded-xl hover:border-terracotta hover:-translate-y-2 transition-all duration-500 reveal" style="animation-delay: 0.2s;">
+                    <div class="text-terracotta mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chef-hat-icon lucide-chef-hat"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z"/><path d="M6 17h12"/></svg>
+                    </div>
+                    <h3 class="text-xl font-serif mb-3">Chef's Kitchen</h3>
+                    <p class="text-charcoal/70 font-light text-sm leading-relaxed">Professional-grade appliances and a spacious island for culinary exploration.</p>
+                </div>
+                <!-- Feature 4 -->
+                <div class="bg-ivory p-10 border border-border rounded-xl hover:border-terracotta hover:-translate-y-2 transition-all duration-500 reveal" style="animation-delay: 0.3s;">
+                    <div class="text-terracotta mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-icon lucide-bell"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>
+                    </div>
+                    <h3 class="text-xl font-serif mb-3">Concierge Service</h3>
+                    <p class="text-charcoal/70 font-light text-sm leading-relaxed">Personalized assistance for bookings, charters, and local recommendations.</p>
+                </div>
+                <!-- Feature 5 -->
+                <div class="bg-ivory p-10 border border-border rounded-xl hover:border-terracotta hover:-translate-y-2 transition-all duration-500 reveal" style="animation-delay: 0.4s;">
+                    <div class="text-terracotta mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bed-double-icon lucide-bed-double"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M12 4v6"/><path d="M2 18h20"/></svg>
+                    </div>
+                    <h3 class="text-xl font-serif mb-3">Master Suite</h3>
+                    <p class="text-charcoal/70 font-light text-sm leading-relaxed">Opulent primary bedroom with a private balcony and spa-inspired ensuite.</p>
+                </div>
+                <!-- Feature 6 -->
+                <div class="bg-ivory p-10 border border-border rounded-xl hover:border-terracotta hover:-translate-y-2 transition-all duration-500 reveal" style="animation-delay: 0.5s;">
+                    <div class="text-terracotta mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-brain-circuit-icon lucide-brain-circuit"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M9 13a4.5 4.5 0 0 0 3-4"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/><path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M12 13h4"/><path d="M12 18h6a2 2 0 0 1 2 2v1"/><path d="M12 8h8"/><path d="M16 8V5a2 2 0 0 1 2-2"/><circle cx="16" cy="13" r=".5"/><circle cx="18" cy="3" r=".5"/><circle cx="20" cy="21" r=".5"/><circle cx="20" cy="8" r=".5"/></svg>
+                    </div>
+                    <h3 class="text-xl font-serif mb-3">Smart Home</h3>
+                    <p class="text-charcoal/70 font-light text-sm leading-relaxed">Integrated sound, climate, and security systems for effortless control.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section (Masonry Grid) -->
+    <section id="gallery" class="py-24 md:py-32 px-8 bg-ivory">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="text-terracotta uppercase tracking-[0.3em] text-xs font-bold mb-4 block">Visual Journey</span>
+                <h2 class="text-4xl md:text-5xl font-serif mb-4">The Courtyard Sanctuary</h2>
+                <p class="text-charcoal/60 font-light max-w-xl mx-auto">A glimpse into the soul of Casa Solara, where every corner tells a story of elegance and light.</p>
+            </div>
+            
+            <div class="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8 reveal">
+                <!-- Image 1 -->
+                <div class="break-inside-avoid group relative overflow-hidden shadow-xl cursor-pointer" onclick="openLightbox('https://jerryhudson.co/projects/casasolara/images/casa-solara-backyard.webp', 'Poolside Serenity')">
+                    <img src="https://jerryhudson.co/projects/casasolara/images/casa-solara-backyard.webp" 
+                         alt="Poolside Serenity" 
+                         class="w-full h-auto rounded-2xl object-cover group-hover:scale-105 transition-transform duration-700"
+                         referrerpolicy="no-referrer">
+                    <div class="absolute inset-0 bg-charcoal/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                        <span class="text-white text-xs uppercase tracking-widest font-semibold">Poolside Serenity</span>
+                    </div>
+                </div>
+                <!-- Image 2 -->
+                <div class="break-inside-avoid group relative overflow-hidden shadow-xl cursor-pointer" onclick="openLightbox(https://jerryhudson.co/projects/casasolara/images/casa-solara-courtyard.webp', 'Courtyard Ambience')">
+                    <img src="https://jerryhudson.co/projects/casasolara/images/casa-solara-courtyard.webp" 
+                         alt="Courtyard Ambience" 
+                         class="w-full h-auto rounded-2xl object-cover group-hover:scale-105 transition-transform duration-700"
+                         referrerpolicy="no-referrer">
+                    <div class="absolute inset-0 bg-charcoal/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                        <span class="text-white text-xs uppercase tracking-widest font-semibold">Courtyard Ambience</span>
+                    </div>
+                </div>
+                <!-- Image 3 -->
+                <div class="break-inside-avoid group relative overflow-hidden shadow-xl cursor-pointer" onclick="openLightbox('https://jerryhudson.co/projects/casasolara/images/casa-solara-master-bedroom.webp', 'The Master Suite')">
+                    <img src="https://jerryhudson.co/projects/casasolara/images/casa-solara-master-bedroom.webp" 
+                         alt="Master Suite" 
+                         class="w-full h-auto rounded-2xl object-cover group-hover:scale-105 transition-transform duration-700"
+                         referrerpolicy="no-referrer">
+                    <div class="absolute inset-0 bg-charcoal/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                        <span class="text-white text-xs uppercase tracking-widest font-semibold">The Master Suite</span>
+                    </div>
+                </div>
+                <!-- Image 4 -->
+                <div class="break-inside-avoid group relative overflow-hidden shadow-xl cursor-pointer" onclick="openLightbox('https://jerryhudson.co/projects/casasolara/images/casa-solara-ensuite.webp', 'Serene Ensuite')">
+                    <img src="https://jerryhudson.co/projects/casasolara/images/casa-solara-ensuite.webp" 
+                         alt="Serene Ensuite" 
+                         class="w-full h-auto rounded-2xl object-cover group-hover:scale-105 transition-transform duration-700"
+                         referrerpolicy="no-referrer">
+                    <div class="absolute inset-0 bg-charcoal/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                        <span class="text-white text-xs uppercase tracking-widest font-semibold">Serene Ensuite</span>
+                    </div>
+                </div>
+                <!-- Image 5 -->
+                <div class="break-inside-avoid group relative overflow-hidden shadow-xl cursor-pointer" onclick="openLightbox('https://jerryhudson.co/projects/casasolara/images/casa-solara-kitchen.webp', 'Mediterranean Kitchen')">
+                    <img src="https://jerryhudson.co/projects/casasolara/images/casa-solara-kitchen.webp" 
+                         alt="Mediterranean Kitchen" 
+                         class="w-full h-auto rounded-2xl object-cover group-hover:scale-105 transition-transform duration-700"
+                         referrerpolicy="no-referrer">
+                    <div class="absolute inset-0 bg-charcoal/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                        <span class="text-white text-xs uppercase tracking-widest font-semibold">Mediterranean Kitchen</span>
+                    </div>
+                </div>
+                <!-- Image 6 -->
+                <div class="break-inside-avoid group relative overflow-hidden shadow-xl cursor-pointer" onclick="openLightbox('https://jerryhudson.co/projects/casasolara/images/casa-solara-living-room.webp', 'Tranquil Living Space')">
+                    <img src="https://jerryhudson.co/projects/casasolara/images/casa-solara-living-room.webp" 
+                         alt="Tranquil Living Space" 
+                         class="w-full h-auto rounded-2xl object-cover group-hover:scale-105 transition-transform duration-700"
+                         referrerpolicy="no-referrer">
+                    <div class="absolute inset-0 bg-charcoal/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                        <span class="text-white text-xs uppercase tracking-widest font-semibold">Tranquil Living Space</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rates + Booking -->
+    <section id="rates" class="py-24 md:py-32 px-8 max-w-7xl mx-auto">
+        <div class="text-center mb-20 reveal">
+            <h2 class="text-4xl md:text-5xl font-serif mb-4">Seasonal Rates</h2>
+            <p class="text-charcoal/60 font-light max-w-xl mx-auto">Plan your escape to paradise. Rates include full villa access and concierge service.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+            <!-- Low Season -->
+            <div class="bg-white p-12 border border-border rounded-xl text-center reveal">
+                <span class="text-charcoal/40 uppercase tracking-widest text-xs font-bold mb-4 block">May - October</span>
+                <h3 class="text-3xl font-serif mb-6">Low Season</h3>
+                <div class="mb-8">
+                    <span class="text-5xl font-serif text-terracotta">$850</span>
+                    <span class="text-charcoal/40 text-sm">/ night</span>
+                </div>
+                <ul class="space-y-4 text-sm text-charcoal/70 font-light mb-10">
+                    <li>Minimum 3-night stay</li>
+                    <li>Complimentary welcome basket</li>
+                    <li>Standard concierge access</li>
+                </ul>
+                <button onclick="openModal()" class="w-full border border-charcoal text-charcoal py-4 font-semibold uppercase tracking-widest text-xs hover:bg-charcoal hover:text-white transition-all">
+                    Reserve Your Stay
+                </button>
+            </div>
+
+            <!-- High Season -->
+            <div class="bg-white p-12 border-2 border-terracotta rounded-xl text-center relative shadow-2xl reveal" style="animation-delay: 0.2s;">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-terracotta text-white px-4 py-1 text-[10px] uppercase tracking-[0.2em] font-bold">
+                    Most Popular
+                </div>
+                <span class="text-charcoal/40 uppercase tracking-widest text-xs font-bold mb-4 block">November - April</span>
+                <h3 class="text-3xl font-serif mb-6">High Season</h3>
+                <div class="mb-8">
+                    <span class="text-5xl font-serif text-terracotta">$1,200</span>
+                    <span class="text-charcoal/40 text-sm">/ night</span>
+                </div>
+                <ul class="space-y-4 text-sm text-charcoal/70 font-light mb-10">
+                    <li>Minimum 5-night stay</li>
+                    <li>Premium welcome experience</li>
+                    <li>24/7 Priority concierge</li>
+                </ul>
+                <button onclick="openModal()" class="w-full bg-terracotta text-white py-4 font-semibold uppercase tracking-widest text-xs hover:bg-terracotta/90 transition-all shadow-lg shadow-terracotta/20">
+                    Reserve Your Stay
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Island Life -->
+    <section id="island-life" class="bg-sand py-24 md:py-32 px-8">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="order-2 lg:order-1 reveal">
+                <img src="https://jerryhudson.co/projects/casasolara/images/key-west-ocean.webp" 
+                     alt="Key West Beach" 
+                     class="w-full h-[600px] rounded-2xl object-cover shadow-2xl"
+                     referrerpolicy="no-referrer">
+            </div>
+            <div class="order-1 lg:order-2 reveal" style="animation-delay: 0.2s;">
+                <span class="text-terracotta uppercase tracking-[0.3em] text-xs font-bold mb-4 block">The Destination</span>
+                <h2 class="text-4xl md:text-5xl font-serif mb-8 leading-tight">Moments Beyond the Villa</h2>
+                <p class="text-charcoal/80 leading-relaxed text-lg font-light mb-10">
+                    While Casa Solara offers a world of its own, the magic of Key West awaits just beyond your gates. From the historic charm of Old Town to the crystal-clear waters of the Dry Tortugas, every moment is an invitation to explore.
+                </p>
+                <ul class="space-y-6">
+                    <li class="flex items-start space-x-4">
+                        <span class="w-8 h-[1px] bg-terracotta mt-3"></span>
+                        <div>
+                            <span class="text-sm uppercase tracking-widest font-semibold block mb-1">Sunset sails on private yachts</span>
+                            <p class="text-xs text-charcoal/60 font-light">Experience the legendary Key West sunset from the deck of a luxury schooner.</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start space-x-4">
+                        <span class="w-8 h-[1px] bg-terracotta mt-3"></span>
+                        <div>
+                            <span class="text-sm uppercase tracking-widest font-semibold block mb-1">Historic Old Town exploration</span>
+                            <p class="text-xs text-charcoal/60 font-light">Wander through streets lined with Victorian mansions and lush tropical gardens.</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start space-x-4">
+                        <span class="w-8 h-[1px] bg-terracotta mt-3"></span>
+                        <div>
+                            <span class="text-sm uppercase tracking-widest font-semibold block mb-1">Local seafood fine dining</span>
+                            <p class="text-xs text-charcoal/60 font-light">Savor the catch of the day at world-class restaurants just minutes away.</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start space-x-4">
+                        <span class="w-8 h-[1px] bg-terracotta mt-3"></span>
+                        <div>
+                            <span class="text-sm uppercase tracking-widest font-semibold block mb-1">Private deep-sea fishing charters</span>
+                            <p class="text-xs text-charcoal/60 font-light">Embark on an adventure to the world's third-largest barrier reef.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-24 md:py-32 px-8 bg-ivory">
+        <div class="max-w-5xl mx-auto text-center">
+            <span class="text-terracotta uppercase tracking-[0.3em] text-xs font-bold mb-4 block reveal">Guest Stories</span>
+            <div class="reveal">
+                <h2 class="text-4xl md:text-5xl font-serif mb-12">Kind Words from Our Guests</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="reveal" style="animation-delay: 0.1s;">
+                    <p class="text-charcoal/80 italic font-serif text-xl mb-6">"An absolute masterpiece of a home. The attention to detail and the sense of peace we felt here was unlike any other rental we've experienced."</p>
+                    <span class="text-xs uppercase tracking-widest font-bold text-terracotta">— The Sterling Family</span>
+                </div>
+                <div class="reveal" style="animation-delay: 0.2s;">
+                    <p class="text-charcoal/80 italic font-serif text-xl mb-6">"The courtyard is a dream. We spent every evening by the pool, surrounded by the scent of jasmine. Truly a sanctuary in Key West."</p>
+                    <span class="text-xs uppercase tracking-widest font-bold text-terracotta">— Julian & Elena V.</span>
+                </div>
+                <div class="reveal" style="animation-delay: 0.3s;">
+                    <p class="text-charcoal/80 italic font-serif text-xl mb-6">"Perfectly located yet incredibly private. The concierge service made our anniversary trip seamless and truly special."</p>
+                    <span class="text-xs uppercase tracking-widest font-bold text-terracotta">— Marcus T.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="py-24 md:py-32 px-8 bg-sand">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <span class="text-terracotta uppercase tracking-[0.3em] text-xs font-bold mb-4 block">The Neighborhood</span>
+                    <h2 class="text-4xl md:text-5xl font-serif mb-8 leading-tight">In the Heart of Key West</h2>
+                    <p class="text-charcoal/80 leading-relaxed text-lg font-light mb-8">
+                        Located just steps from the historic Duval Street, Casa Solara offers the perfect balance of island energy and private seclusion. Discover the best of the island within walking distance.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between border-b border-border pb-4">
+                            <span class="text-sm font-semibold uppercase tracking-widest">Duval Street</span>
+                            <span class="text-xs text-charcoal/40 uppercase tracking-widest">2 Minute Walk</span>
+                        </div>
+                        <div class="flex items-center justify-between border-b border-border pb-4">
+                            <span class="text-sm font-semibold uppercase tracking-widest">Southernmost Point</span>
+                            <span class="text-xs text-charcoal/40 uppercase tracking-widest">5 Minute Bike Ride</span>
+                        </div>
+                        <div class="flex items-center justify-between border-b border-border pb-4">
+                            <span class="text-sm font-semibold uppercase tracking-widest">Fort Zachary Taylor Beach</span>
+                            <span class="text-xs text-charcoal/40 uppercase tracking-widest">10 Minute Bike Ride</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="h-[600px] bg-ivory border border-border rounded-xl relative overflow-hidden reveal" style="animation-delay: 0.2s;">
+                    <!-- Mock Map Placeholder -->
+                    <div class="aspect-square overflow-hidden relative flex items-center justify-center border border-ivory">
+                    <div class="text-center p-12 z-10">
+					  <div class="text-terracotta flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin-icon lucide-map-pin"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+					</div>
+                        <div class="text-xl font-serif mb-2">Interactive Map</div>
+                        <p class="text-sm text-brand-charcoal/80 mb-6 font-light">Exact location provided after booking for guest privacy.</p>
+                        <button class="px-8 py-3 rounded-lg map-button-container text-[10px] uppercase tracking-widest font-bold hover:bg-charcoal hover:text-white transition-all" style="border: 1px solid rgba(26, 26, 26, 0.8);">
+                            <a href="https://maps.app.goo.gl/PUX6DuhxXYvfQ4Gk6" target="_blank" class="map-button">View Neighborhood</a>
+                        </button>
+                    </div>
+                    <!-- Mock Map Background -->
+                    <div class="absolute inset-0 opacity-20 grayscale">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3628.8574891883154!2d-81.80788962463872!3d24.559586378126983!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d1b6eb77f1c159%3A0xcee5078ab8ff2c0!2s123%20Duval%20St%2C%20Key%20West%2C%20FL%2033040%2C%20USA!5e0!3m2!1sen!2sca!4v1772429930756!5m2!1sen!2sca" width="600" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="bg-olive py-24 px-8 text-center text-ivory">
+        <div class="max-w-3xl mx-auto reveal">
+            <h2 class="text-4xl md:text-6xl font-serif mb-8">Ready to Escape to Casa Solara?</h2>
+            <p class="text-ivory/70 font-light text-lg mb-12">Secure your dates for an unforgettable journey into island elegance.</p>
+            <button onclick="openModal()" class="bg-ivory text-olive rounded-lg px-12 py-5 font-semibold uppercase tracking-widest text-sm hover:bg-white transition-all shadow-xl">
+                Check Availability
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-charcoal py-20 px-8 text-sand">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            <div>
+                <h4 class="text-xl font-serif mb-6 text-white">Casa Solara</h4>
+                <p class="text-sm font-light leading-relaxed text-sand/60">
+                    A Spanish-inspired sanctuary in Key West, where luxury meets the soul of the tropics.
+                </p>
+            </div>
+            <div>
+                <h5 class="text-xs uppercase tracking-widest font-bold mb-6 text-white/40">The Villa</h5>
+                <ul class="space-y-4 text-sm font-light">
+                    <li><a href="#villa" class="hover:text-terracotta transition-colors">Story</a></li>
+                    <li><a href="#amenities" class="hover:text-terracotta transition-colors">Amenities</a></li>
+                    <li><a href="#gallery" class="hover:text-terracotta transition-colors">Gallery</a></li>
+                    <li><a href="#rates" class="hover:text-terracotta transition-colors">Rates</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="text-xs uppercase tracking-widest font-bold mb-6 text-white/40">Location</h5>
+                <p class="text-sm font-light leading-relaxed text-sand/60">
+                    123 Duval Street Extension<br>
+                    Key West, FL 33040<br>
+                    United States
+                </p>
+            </div>
+            <div>
+                <h5 class="text-xs uppercase tracking-widest font-bold mb-6 text-white/40">Contact</h5>
+                <ul class="space-y-4 text-sm font-light">
+                    <li><a href="mailto:stay@casasolara.com" class="hover:text-terracotta transition-colors">stay@casasolara.com</a></li>
+                    <li><a href="tel:+13055550123" class="hover:text-terracotta transition-colors">+1 (305) 555-0123</a></li>
+                    <li class="flex space-x-4 pt-4">
+                        <a href="#" class="hover:text-terracotta transition-colors">Instagram</a>
+                        <a href="#" class="hover:text-terracotta transition-colors">Facebook</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/10 text-center">
+            <p class="text-[10px] uppercase tracking-widest leading-normal text-sand/30">
+                &copy; 2026 Jerry Hudson. All rights reserved.<br>This is a conceptual design project. Imagery is AI-generated for portfolio demonstration purposes.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Availability Modal -->
+    <div id="availability-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        <div id="modal-overlay" class="absolute inset-0 bg-charcoal/80 backdrop-blur-sm"></div>
+        <div class="relative bg-ivory w-full max-w-xl p-8 md:p-12 shadow-2xl border border-border reveal active">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-charcoal/40 hover:text-charcoal transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+            
+            <h3 class="text-3xl font-serif mb-2">Check Availability</h3>
+            <p class="text-charcoal/60 text-sm font-light mb-8">Select your preferred dates to begin your reservation.</p>
+            
+            <form class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-charcoal/60 font-bold mb-2">Arrival Date</label>
+                        <input type="date" class="w-full bg-white border border-border p-3 outline-none focus:border-terracotta transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-charcoal/60 font-bold mb-2">Departure Date</label>
+                        <input type="date" class="w-full bg-white border border-border p-3 outline-none focus:border-terracotta transition-colors">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-charcoal/60 font-bold mb-2">Number of Guests</label>
+                    <select class="w-full bg-white border border-border p-3 outline-none focus:border-terracotta transition-colors cursor-pointer">
+                        <option>1-2 Guests</option>
+                        <option>3-4 Guests</option>
+                        <option>5-6 Guests</option>
+                        <option>7-8 Guests</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-charcoal/60 font-bold mb-2">Special Requests</label>
+                    <textarea class="w-full bg-white border border-border p-3 outline-none focus:border-terracotta transition-colors h-24 resize-none" placeholder="Tell us about your stay..."></textarea>
+                </div>
+                <button type="button" class="w-full bg-terracotta text-white py-4 font-semibold uppercase tracking-widest text-sm hover:bg-terracotta/90 transition-all shadow-lg shadow-terracotta/20">
+                    Request Reservation
+                </button>
+            </form>
+        </div>
+    </div>
+	
+	  <!-- Lightbox Modal -->
+    <div id="lightbox-modal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4">
+        <div id="lightbox-overlay" class="absolute inset-0 bg-charcoal/95 backdrop-blur-md"></div>
+        <div class="relative max-w-5xl w-full flex flex-col items-center">
+            <button onclick="closeLightbox()" class="absolute -top-12 right-0 text-white/60 hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+            <img id="lightbox-img" src="" alt="" class="max-h-[85vh] w-auto shadow-2xl border border-white/10">
+            <p id="lightbox-caption" class="text-white/80 font-serif text-xl mt-6 italic"></p>
+        </div>
+    </div>
+
+    <script>
+        // Sticky Nav Logic
+        const nav = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-ivory', 'shadow-md', 'py-4');
+                nav.classList.remove('py-6');
+                nav.style.color = '#2E2A27';
+            } else {
+                nav.classList.remove('bg-ivory', 'shadow-md', 'py-4');
+                nav.classList.add('py-6');
+                nav.style.color = 'white';
+            }
+        });
+
+        // Modal Logic
+        const modal = document.getElementById('availability-modal');
+        const overlay = document.getElementById('modal-overlay');
+
+        function openModal() {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        overlay.addEventListener('click', closeModal);
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+		
+		// Lightbox Logic
+        const lightbox = document.getElementById('lightbox-modal');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const lightboxOverlay = document.getElementById('lightbox-overlay');
+
+        function openLightbox(src, caption) {
+            lightboxImg.src = src;
+            lightboxCaption.textContent = caption;
+            lightbox.classList.remove('hidden');
+            lightbox.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.add('hidden');
+            lightbox.classList.remove('flex');
+            if (!modal.classList.contains('flex')) {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        lightboxOverlay.addEventListener('click', closeLightbox);
+		
+		// Reveal on Scroll Logic
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+				  entry.target.classList.add('active');
+				  observer.unobserve(entry.target);
+				}
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Smooth Scroll for Nav
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Initial Nav State
+        if (window.scrollY <= 50) {
+            nav.style.color = 'white';
+            document.getElementById('mobile-menu-toggle').style.color = 'white';
+        } else {
+            nav.classList.add('bg-ivory', 'shadow-md', 'py-4');
+            nav.style.color = '#2E2A27';
+            document.getElementById('mobile-menu-toggle').style.color = '#2E2A27';
+        }
+
+        // Mobile Menu Logic
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+        let isMobileMenuOpen = false;
+
+        function toggleMobileMenu() {
+            isMobileMenuOpen = !isMobileMenuOpen;
+            if (isMobileMenuOpen) {
+                mobileMenu.classList.remove('translate-x-full');
+                menuIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                nav.style.color = '#2E2A27';
+                mobileMenuToggle.style.color = '#2E2A27';
+            } else {
+                mobileMenu.classList.add('translate-x-full');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+                if (window.scrollY <= 50) {
+                    nav.style.color = 'white';
+                    mobileMenuToggle.style.color = 'white';
+                }
+            }
+        }
+
+        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (isMobileMenuOpen) toggleMobileMenu();
+            });
+        });
+
+        // Update Nav Scroll Logic for Mobile Toggle Color
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-ivory', 'shadow-md', 'py-4');
+                nav.classList.remove('py-6');
+                nav.style.color = '#2E2A27';
+                mobileMenuToggle.style.color = '#2E2A27';
+            } else {
+                nav.classList.remove('bg-ivory', 'shadow-md', 'py-4');
+                nav.classList.add('py-6');
+                if (!isMobileMenuOpen) {
+                    nav.style.color = 'white';
+                    mobileMenuToggle.style.color = 'white';
+                }
+            }
+        });
+		
+    </script>
+</body>
+</html>
